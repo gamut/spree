@@ -11,5 +11,7 @@ module Spree
     validates :taxon, :product, presence: true
     # For #3494
     validates :taxon_id, uniqueness: { scope: :product_id, message: :already_linked, allow_blank: true }
+
+    self.whitelisted_ransackable_associations = %w[taxon]
   end
 end

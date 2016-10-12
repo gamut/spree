@@ -118,6 +118,18 @@ module Spree
       values.to_sentence({ words_connector: ", ", two_words_connector: ", " })
     end
 
+    def short_options_text
+      values = self.option_values.sort do |a, b|
+        a.option_type.position <=> b.option_type.position
+      end
+
+      values.to_a.map! do |ov|
+        "#{ov.presentation}"
+      end
+
+      values.to_sentence({ words_connector: ", ", two_words_connector: ", " })
+    end
+
     # Default to master name
     def exchange_name
       is_master? ? name : options_text
@@ -125,6 +137,10 @@ module Spree
 
     def descriptive_name
       is_master? ? name + ' - Master' : name + ' - ' + options_text
+    end
+
+    def short_descriptive_name
+      is_master? ? name : name + ' - ' + short_options_text
     end
 
     # use deleted? rather than checking the attribute directly. this
