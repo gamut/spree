@@ -34,13 +34,11 @@ module Spree
     end
 
     def update_variety(new_variety)
-      if variety_taxon.present?
+      if variety_taxon.nil?
         taxons << Spree::Taxon.where( ' parent_id = 1 AND name LIKE ?', new_variety )
-      else
-        if variety_taxon.name.downcase != new_variety
-          taxons.delete(variety_taxon)
-          taxons << Spree::Taxon.where( ' parent_id = 1 AND name LIKE ?', new_variety )
-        end
+      elsif variety_taxon.name.downcase != new_variety
+        taxons.delete(variety_taxon)
+        taxons << Spree::Taxon.where( ' parent_id = 1 AND name LIKE ?', new_variety )
       end
     end
 
