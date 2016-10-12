@@ -143,6 +143,13 @@ module Spree
       is_master? ? name : name + ' - ' + short_options_text
     end
 
+    def is_main_variant?
+      return true if self.is_master?
+
+      digits = short_options_text.gsub(/[^0-9]/,'')
+      digits == '1'
+    end
+
     # use deleted? rather than checking the attribute directly. this
     # allows extensions to override deleted? if they want to provide
     # their own definition.
